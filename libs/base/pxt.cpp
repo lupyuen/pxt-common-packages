@@ -1,4 +1,12 @@
 #include "pxtbase.h"
+////  Declarations for STM32 Blue Pill
+extern "C" void target_enable_debug();  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
+extern "C" void target_disable_debug();  //  Disable display of debug messages.  For use in production devices.
+extern "C" void target_init(void);
+extern "C" void debug_print(const char *s);    //  TODO: Write a string to the buffered debug log.
+extern "C" void debug_println(const char *s);  //  TODO: Write a string plus newline to the buffered debug log.
+extern "C" void debug_flush(void);             //  TODO: Flush the buffer of the debug log so that buffered data will appear.
+void debug_println(size_t l);
 
 using namespace std;
 
@@ -422,6 +430,8 @@ TValue *globals;
 
 void checkStr(bool cond, const char *msg) {
     if (!cond) {
+        ////  Show a message when check fails.
+        debug_print("***** Check Failed: "); debug_println(msg); debug_flush();  //// TODO
         while (true) {
             // uBit.display.scroll(msg, 100);
             // uBit.sleep(100);
@@ -451,11 +461,14 @@ void exec_binary(unsigned *pc) {
     // ::touch_develop::micro_bit::radioDefaultGroup = programHash();
 
     unsigned ver = *pc++;
+    debug_print("---exec_binary runtime "); debug_println((size_t) ver); debug_flush();  //// TODO
     checkStr(ver == 0x4210, ":( Bad runtime version");
+    debug_println("---exec_binary allocate"); debug_flush();  //// TODO
 
     bytecode = *((uint16_t **)pc++); // the actual bytecode is here
     globals = (TValue *)app_alloc(sizeof(TValue) * getNumGlobals());
     memset(globals, 0, sizeof(TValue) * getNumGlobals());
+    debug_println("---exec_binary compare"); debug_flush();  //// TODO
 
     // can be any valid address, best in RAM for speed
     globals[0] = (TValue)&globals;
@@ -464,21 +477,29 @@ void exec_binary(unsigned *pc) {
     // TODO
     checkStr(((uint32_t *)bytecode)[0] == 0x923B8E70 && (unsigned)templateHash() == *pc,
              ":( Failed partial flash");
+    debug_println("---exec_binary initPerfCounters"); debug_flush();  //// TODO
 
     uintptr_t startptr = (uintptr_t)bytecode;
 
     startptr += 64; // header
 
     initPerfCounters();
+    debug_println("---exec_binary initRuntime"); debug_flush();  //// TODO
 
     initRuntime();
+    debug_println("---exec_binary runAction0"); debug_flush();  //// TODO
 
     runAction0((Action)startptr);
+    debug_println("---exec_binary releaseFiber"); debug_flush();  //// TODO
 
     pxt::releaseFiber();
 }
 
 void start() {
+    ////  Enable debug and init the target.
+    target_enable_debug();  //// TODO
+    target_init(); //// TODO
+    debug_println("---pxt::start"); debug_flush();  //// TODO
     exec_binary((unsigned *)functionsAndBytecode);
 }
 #endif
