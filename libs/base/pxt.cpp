@@ -5,6 +5,7 @@ extern "C" void target_disable_debug();  //  Disable display of debug messages. 
 extern "C" void target_init(void);
 extern "C" void debug_print(const char *s);    //  TODO: Write a string to the buffered debug log.
 extern "C" void debug_println(const char *s);  //  TODO: Write a string plus newline to the buffered debug log.
+extern "C" void debug_printhex_unsigned(size_t l);  //  Write an unsigned int in hexadecimal to the buffered debug log.
 extern "C" void debug_flush(void);             //  TODO: Flush the buffer of the debug log so that buffered data will appear.
 void debug_println(size_t l);
 
@@ -460,8 +461,12 @@ void exec_binary(unsigned *pc) {
     // unique group for radio based on source hash
     // ::touch_develop::micro_bit::radioDefaultGroup = programHash();
 
+    ////  If the runtime version fails, then we are probably running an empty executable e.g.
+    ////  pxt-maker/libs/stm32bluepill/built/dockercodal/build/STM32_BLUE_PILL.bin
+    ////  We should run a proper MakeCode project executable e.g.
+    ////  pxt-maker/projects/blink/built/flash.bin
     unsigned ver = *pc++;
-    debug_print("---exec_binary runtime "); debug_println((size_t) ver); debug_flush();  //// TODO
+    debug_print("---exec_binary runtime "); debug_printhex_unsigned((size_t) ver); debug_println(""); debug_flush();  //// TODO
     checkStr(ver == 0x4210, ":( Bad runtime version");
     debug_println("---exec_binary allocate"); debug_flush();  //// TODO
 
