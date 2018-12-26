@@ -1,5 +1,7 @@
 # MakeCode Common packages
 
+_Updated for STM32 Blue Pill. See https://github.com/lupyuen/stm32bluepill-makecode/blob/master/README.md_
+
 A set of packages used in various MakeCode editors such as https://makecode.adafruit.com, https://maker.makecode.com, https://makecode.microbit.org, https://makecode.mindstorms.com, etc...
 
 [![Build Status](https://travis-ci.org/Microsoft/pxt-common-packages.svg?branch=master)](https://travis-ci.org/Microsoft/pxt-common-packages)
