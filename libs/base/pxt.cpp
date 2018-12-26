@@ -466,7 +466,7 @@ void exec_binary(unsigned *pc) {
     ////  We should run a proper MakeCode project executable e.g.
     ////  pxt-maker/projects/blink/built/flash.bin
     unsigned ver = *pc++;
-    debug_print("---exec_binary runtime "); debug_printhex_unsigned((size_t) ver); debug_println(""); debug_flush();  //// TODO
+    debug_print("---exec_binary addr "); debug_printhex_unsigned((size_t) pc - 1); debug_print(", ver "); debug_printhex_unsigned((size_t) ver); debug_println(""); debug_flush();  //// TODO
     checkStr(ver == 0x4210, ":( Bad runtime version");
     debug_println("---exec_binary allocate"); debug_flush();  //// TODO
 
