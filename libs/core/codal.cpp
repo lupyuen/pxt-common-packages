@@ -72,12 +72,16 @@ static void commInit() {
 }
 
 static void initCodal() {
+    debug_println("---initCodal cpu_clock_init"); debug_flush();  //// TODO
     cpu_clock_init();
+    debug_println("---initCodal commInit"); debug_flush();  //// TODO
 
     commInit();
+    debug_println("---initCodal scheduler_init"); debug_flush();  //// TODO
 
     // Bring up fiber scheduler.
     scheduler_init(devMessageBus);
+    debug_println("---initCodal components.init"); debug_flush();  //// TODO
 
     // We probably don't need that - components are initialized when one obtains
     // the reference to it.
@@ -88,8 +92,10 @@ static void initCodal() {
         if (CodalComponent::components[i])
             CodalComponent::components[i]->init();
     }
+    debug_println("---initCodal usb_init"); debug_flush();  //// TODO
 
     usb_init();
+    debug_println("---initCodal done"); debug_flush();  //// TODO
 
     auto led = LOOKUP_PIN(LED);
     if (led) {
