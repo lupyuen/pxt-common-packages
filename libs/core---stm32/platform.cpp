@@ -1,8 +1,12 @@
 #include "pxt.h"
+extern "C" void debug_print(const char *s);    //  TODO: Write a string to the buffered debug log.
+extern "C" void debug_println(const char *s);  //  TODO: Write a string plus newline to the buffered debug log.
+extern "C" void debug_flush(void);             //  TODO: Flush the buffer of the debug log so that buffered data will appear.
 
 namespace pxt {
 
 static void initRandomSeed() {
+    debug_println("initRandomSeed");
     int seed = 0xC0DA1;
     /*
     auto pinTemp = LOOKUP_PIN(TEMPERATURE);
@@ -16,6 +20,7 @@ static void initRandomSeed() {
 }
 
 void platformSendSerial(const char *data, int len) {
+    debug_println("platformSendSerial");
     /*
     if (!serial) {
         serial = new codal::_mbed::Serial(USBTX, NC);
@@ -26,6 +31,7 @@ void platformSendSerial(const char *data, int len) {
 }
 
 void platform_init() {
+    debug_println("platform_init");
     initRandomSeed();
     setSendToUART(platformSendSerial);
 
@@ -41,5 +47,6 @@ void platform_init() {
 }
 
 void cpu_clock_init() {
+    debug_println("cpu_clock_init");
     devTimer.init();
 }
