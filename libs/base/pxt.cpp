@@ -1,8 +1,5 @@
 #include "pxtbase.h"
 ////  Declarations for STM32 Blue Pill
-extern "C" void target_enable_debug();  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-extern "C" void target_disable_debug();  //  Disable display of debug messages.  For use in production devices.
-extern "C" void target_init(void);
 extern "C" void debug_print(const char *s);    //  TODO: Write a string to the buffered debug log.
 extern "C" void debug_println(const char *s);  //  TODO: Write a string plus newline to the buffered debug log.
 extern "C" void debug_printhex_unsigned(size_t l);  //  Write an unsigned int in hexadecimal to the buffered debug log.
@@ -501,10 +498,6 @@ void exec_binary(unsigned *pc) {
 }
 
 void start() {
-    ////  Enable debug and init the target.
-    target_enable_debug();  //// TODO
-    target_init(); //// TODO
-    debug_println("---pxt::start"); debug_flush();  //// TODO
     exec_binary((unsigned *)functionsAndBytecode);
 }
 #endif

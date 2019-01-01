@@ -1,8 +1,5 @@
 #include "pxt.h"
 ////  Declarations for STM32 Blue Pill
-extern "C" void target_enable_debug();  //  Allow display of debug messages in development devices. NOTE: This will hang if no debugger is attached.
-extern "C" void target_disable_debug();  //  Disable display of debug messages.  For use in production devices.
-extern "C" void target_init(void);
 extern "C" void debug_print(const char *s);    //  TODO: Write a string to the buffered debug log.
 extern "C" void debug_println(const char *s);  //  TODO: Write a string plus newline to the buffered debug log.
 extern "C" void debug_flush(void);             //  TODO: Flush the buffer of the debug log so that buffered data will appear.
